@@ -2,6 +2,103 @@
 
 <html>
 <head>
+	<script>
+		function validateForm()
+{
+var x=document.forms["myForm"]["fname"].value;
+if (x==null || x=="")
+ {
+  alert("Fill first name");
+ return false;
+ }
+ var letters = /^[A-Za-z]/;
+    if(document.myForm.fname.value.match(letters))
+    {
+       
+    }
+        else
+        {
+        alert('Please input alphabet characters only');
+       
+        }
+ 
+ var y=document.forms["myForm"]["lname"].value;
+if (y==null || y=="") {
+  alert("fill Last name");
+  return false;
+}
+var letters1 = /^[A-Za-z]/;
+    if(document.myForm.fname.value.match(letters1))
+    {
+       
+    }
+        else
+        {
+        alert('Please input alphabet characters in last name');
+       
+        }
+		
+var k=document.forms["myForm"]["phoneNumber"].value;
+if (k==null || k=="") {
+  alert("Phone must be filled out");
+  
+}
+var numbers = /^[0-9]+$/;
+if(document.myForm.phoneNumber.value.match(numbers))
+      {
+      
+      }
+      else
+      {
+      alert('enter valid number');
+      
+      
+      }
+	  
+	  var l=document.forms["myForm"]["email"].value;
+if (l==null || l=="") {
+  alert("username must be filled out");
+  return false;
+  
+}
+
+var x=document.myForm.email.value;  
+var atposition=x.indexOf("@");  
+var dotposition=x.lastIndexOf(".");  
+if (atposition<1 || dotposition<atposition+2 || dotposition+2>=x.length){  
+  alert("Please enter a valid e-mail address \n );  
+  return false; 
+  }
+
+ var password = document.getElementByName("password").value;
+        var confirmPassword = document.getElementByName("confirmpassword").value;
+        if (password != confirmpassword) {
+            alert("Passwords do not match.");
+            return false;
+        }
+
+
+
+	  
+
+ var radios = document.getElementsByName("gender");
+    var formValid = false;
+
+    var i = 0;
+    while (!formValid && i < radios.length) {
+        if (radios[i].checked) formValid = true;
+        i++;        
+    }
+
+    if (!formValid) alert("Must check gender");
+    return formValid;
+	
+	
+
+
+
+}
+	</script>
   <style>
     h1 {margin-bottom:20px}
 input, label {margin-top:7px; margin-bottom:7px; color:#000066; font-size: 18px; padding-right: 7px}
@@ -25,7 +122,7 @@ input[type='checkbox'] {margin-left: 5px}
   <h2><left> Register here !!</left></h2>
   <div class= "bg-img" >
 <div class= "container">
-  <form  name="form1"   method = "post" action = "<?php 
+  <form  name="myForm"  onsubmit="return validateForm()" method = "post" method = "post" action = "<?php 
    htmlspecialchars($_SERVER["PHP_SELF"]);?>
 <?php
   $fnameerr = $lnameerr = $gendererr = $emailerr = $phoneerr = $tncv = $tnc1v = $msg_people = $msg_dplace = $msg_facilities =  $msg2_facilities = "";
@@ -287,7 +384,7 @@ if (isset($_POST['submit'])) {
     <option value="$950">$950</option>
   </select></br></br>
   
-  <button type="submit" class="btn btn-large btn-primary" name="submit">Complete reservation</button>
+  <button type="submit" class="btn btn-large btn-primary" name="submit" onclick="validateForm()">Complete reservation</button>
  <?php 
  if (isset($_GET["submit"]))
   {
