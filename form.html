@@ -1,0 +1,304 @@
+
+
+<html>
+<head>
+  <style>
+    h1 {margin-bottom:20px}
+input, label {margin-top:7px; margin-bottom:7px; color:#000066; font-size: 18px; padding-right: 7px}
+input[type='checkbox'] {margin-left: 5px}
+.note {color: #ff0000}
+.success_msg{color:#006600}
+    .error {color: brown;}
+    </style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+<link rel="stylesheet" type="text/css" href="styles/styles.css">
+<link rel="images" type="image" href="flight2.jpg">
+<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+</head>
+<body style= "background-image:url(images/flight2.jpg);background-repeat: no-repeat;  background-size: cover;">
+  <!--<div class="container">-->
+
+
+ <h1><marquee direction="right" height="100" width="100%" bgcolor="">Book your Flight !!</marquee></h1>
+  <h2><left> Register here !!</left></h2>
+  <div class= "bg-img" >
+<div class= "container">
+  <form  name="form1"   method = "post" action = "<?php 
+   htmlspecialchars($_SERVER["PHP_SELF"]);?>
+<?php
+  $fnameerr = $lnameerr = $gendererr = $emailerr = $phoneerr = $tncv = $tnc1v = $msg_people = $msg_dplace = $msg_facilities =  $msg2_facilities = "";
+  $fname = $lname = $gender = $email= $phoneNumber = $oneway = $round = $people = $dplace = $boarding = $fooding = $sightseeing ="";
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+      if (empty($_POST["fname"])) {
+         $fnameerr = "First Name is required";
+      }else {
+         $fname = test_input($_POST["fname"]);
+      }
+
+      if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (empty($_POST["lname"])) {
+           $lnameerr = "Last Name is required";
+        }else {
+           $lname = test_input($_POST["lname"]);
+        }
+
+        if (empty($_POST["gender"])) {
+          $genderErr = "Gender is required";
+       }else {
+          $gender = test_input($_POST["gender"]);
+       }
+
+       if (empty($_POST["email"])) {
+        $emailerr = "Email is required";
+     }else {
+        $email = test_input($_POST["email"]);
+        
+        // check if e-mail address is well-formed
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+           $emailerr = "Invalid email format"; 
+        }
+     }
+
+     if(array_key_exists('phoneNumber', $_POST))
+     {
+       if(!preg_match('/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/', $_POST['phoneNumber']))
+       {
+         $phoneerr = 'Invalid Number!';
+       }
+     }
+
+     public function save_avatar()
+    {
+    if (isset($_FILES['avatar']) && (is_uploaded_file($_FILES['vatartmp_name']))) {
+        // now you can proceed
+    }
+    }
+    public function save_doc()
+    {
+    if (isset($_FILES['doc']) && (is_uploaded_file($_FILES['vatartmp_name']))) {
+        // now you can proceed
+    }
+    }
+
+    if (isset($_POST['submit'])) {
+      if(empty($_POST['people']))
+      $msg_people = "You must select number of people";
+      }
+   
+      
+      //checking terms 
+    $tnc = $_POST['tnc'];
+    switch($tnc)
+    {
+    case "oneway":
+    $tncv="checked";
+    $tnc1v="";
+    break;
+
+    case "round":
+    $tncv="";
+    $tnc1v="checked";
+    $round = "You must agree";
+    break;
+
+    default: // By default 1st option is selected
+    $tncv="checked";
+    $tnc1v="";
+    break;
+}
+if (isset($_POST['submit'])) {
+  if(empty($_POST['dplace']))
+  $msg_dplace = "You must select number of people";
+  }
+
+  if (isset($_POST['submit'])) {
+    //checking facilities
+    $facilities = $_POST['facilities'];
+      if(empty($facilities)) 
+      {
+        $msg_facilities = "You must select facilities";
+      } 
+     
+     if(!empty($_POST['facilities'])) {
+        $no_checked = count($_POST['facilities']);
+        if($no_checked<2)
+        $msg2_facilities = "Select at least two options";
+        }
+      }
+        if (isset($_POST['submit'])) {
+          //check discount coupon
+          //[^a-z0-9_]
+          if($_POST['dis_code'])
+          {
+           $dis_code = $_POST['dis_code'];
+           preg_match("/^[a-zA-Z0-9]+$/", $dis_code, $dis_match);
+           if(!$dis_match[0])
+           $msg_dis = "Must be alphanumric"; 
+           if(strlen($dis_code)!='10')
+           $msg2_dis = "Must be 10 characters long";
+          }
+          }
+        }
+      }
+    }
+  }
+}          
+        
+
+
+  function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+  ?>
+
+<h2> Personal information:</h2>
+<p><span class = "error">* required field.</span></p>
+<table>
+  <tr>
+     <td>First Name:</td>
+     <td><input type = "text" name = "fname">
+        <span class = "error">* <? php echo $fnameerr;?></span>
+     </td>
+  </tr>
+  <tr>
+    <td>Last Name:</td>
+    <td><input type = "text" name = "lname">
+       <span class = "error">* <? php echo $lnameerr;?></span>
+    </td>
+ </tr>
+  
+ <tr>
+  <td>Gender:</td>
+  <td>
+     <input type = "radio" name = "gender" value = "female">Female
+     <input type = "radio" name = "gender" value = "male">Male
+     <span class = "error">* <?php echo $gendererr;?></span>
+  </td>
+</tr>
+<tr>
+  <td>Username: </td>
+  <td><input type = "text" name = "email">
+     <span class = "error">* <?php echo $emailerr;?></span>
+  </td>
+</tr>
+  
+<div class="phone_fieldWrapper">
+  <tr>
+    <td>Phone:</td>
+    <td><input name="phoneNumber" type="text">
+    <span class="error">* <?php echo $phoneerr; ?></span>
+  </td>
+</tr>
+<tr method="post" enctype="multipart/form-data" action="<?php =$view->action('save_avatar')?>">
+  <td>Select Image to Upload:<br><input type="file" name="avatar"></td>
+  <td><button type="submit">Save Avatar</button></td>
+</tr><br><br>
+<tr method="post" enctype="multipart/form-data" action="<?php =$view->action('save_doc')?>">
+  <td>Select Document to Upload:<br><input type="file" name="doc"></td>
+  <td><button type="submit">Save Doc</button></td>
+</tr>
+
+</table>
+
+
+
+	  <!--<button class="button"><label for="pwd">Password</label></button>
+    <input type="password" id="pwd" name="pwd" minlength="8"><br><br>
+	<button class="button"><label for="cpwd">Confirm Password</label></button>
+    <input type="password" id="confirmpwd" name="confirmpwd" minlength="8"><br><br>
+ 
+ <form action="upload.php" method="post" enctype="multipart/form-data">
+  <button class="button"> Select image to upload:</button>
+    <input type="file" name="fileToUpload" id="fileToUpload">
+  <input type="submit" value="Upload" name="submit"> </br>
+  
+   <form action="upload.php" method="post" enctype="multipart/form-data">
+  <button class="button"> Select an  identification:</button>
+    <input type="file" name="fileToUpload" id="fileToUpload">
+  <input type="submit" value="Upload" name="submit">-->
+
+  
+ <h2> Flight information:</h2></br>
+
+ <label>Number of People<span class="note">*</span>:</label>	
+ <select name="people">
+<option value="1n" <?= ($_POST['package'] == "1")? "selected":"";?>1</options>
+<option value="2n" <?= ($_POST['package'] == "2")? "selected":"";?>2</options>
+<option value="3n" <?= ($_POST['package'] == "3")? "selected":"";?>3</options>
+  <option value="4n" <?= ($_POST['package'] == "4")? "selected":"";?>More than 3</options>
+ </select><br>
+
+ <label>Type of Trip<span class="note">*</span></label>
+ <input type="radio" name="tnc" value="oneway" <?php echo $tncv; ?>One Way
+ <input type="radio" name="tnc" value="round" <?php echo $tnc1v; ?>round<br>
+ <!--<?php echo "<p class='note'>".$oneway."</p>";?>
+ <?php echo "<p class='note'>".$round."</p>";?>-->
+
+
+ <label>Departure Place<span class="note">*</span>:</label>	
+ <select name="dplace">
+<option value="tb" <?= ($_POST['package'] == "1")? "selected":"";?>Thuder Bay</options>
+<option value="wp" <?= ($_POST['package'] == "2")? "selected":"";?>Winnipeg</options>
+<option value="ttb" <?= ($_POST['package'] == "3")? "selected":"";?>Terrace Bay</options>
+ </select><br>
+ 
+
+  
+ <label>What would you want to avail?<span class="note">*</span></label>  
+ Boarding<input type="checkbox" name="facilities[]" value="boarding" <?php if(isset($_POST['submit']) && isset($_POST['facilities'][0])) echo "checked" ?> >
+ Fooding<input type="checkbox" name="facilities[]" value="fooding" <?php if(isset($_POST['submit']) && isset($_POST['facilities'][1])) echo "checked" ?> >
+ Sight seeing<input type="checkbox" name="facilities[]" value="sightseeing" <?php if(isset($_POST['submit']) && isset($_POST['facilities'][2])) echo "checked" ?> >
+ <!--<?php echo "<p class='note'>".$msg_facilities."</p>";?>
+ <?php echo "<p class='note'>".$msg2_facilities."</p>";?>--><br>
+	
+	<button class="note"><label for="destinationplace">Destination Place:</label></button>
+  <select id="destinationplace" name="destinationplace">
+   <option value="noval"></option>
+    <option value="toronto">Toronto</option>
+    <option value="winniepeg">Winniepeg</option>
+    <option value="surdbury">Surdbury</option>
+   </select></br></br>
+  
+  
+
+  
+
+  <label>Discout Coupon code:</label>
+
+  <input type="text" name="dis_code" value="<?php echo $_POST['dis_code']; ?>">
+  <?php echo "<p class='note'>".$msg_dis."</p>";?>
+  <?php echo "<p class='note'>".$msg2_dis."</p>";?>
+	
+  <label for="departuredate">Departure Date:</label></button>
+  <input type="date" id="departuredate" name="departuredate"></br></br>
+  <button class="button"><label for="arrivaldate">Arrival Date:</label></button>
+  <input type="date" id="arrivaldate" name="arrivaldate"></br></br>
+  <label for="price">Estimated Price:</label></button>
+  <select id="price" name="price">
+     <option value="noprice"></option>
+    <option value="$400">$400</option>
+    <option value="$700">$700</option>
+    <option value="$800">$800</option>
+    <option value="$950">$950</option>
+  </select></br></br>
+  
+  <button type="submit" class="btn btn-large btn-primary" name="submit">Complete reservation</button>
+ <?php 
+ if (isset($_GET["submit"]))
+  {
+
+  }
+ 
+ 
+  
+
+</form> </div>
+</div>
+
+</body>
+</html>
